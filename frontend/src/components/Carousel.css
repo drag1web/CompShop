@@ -1,0 +1,96 @@
+.carousel {
+  position: relative;
+  width: 800px;        /* шире */
+  max-width: 95vw;     /* адаптивно */
+  margin: 0 auto 40px;
+  border-radius: 14px;
+  overflow: visible;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  background-color: #111; /* немного фона для глубины */
+}
+
+.slider-window {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide {
+  min-width: 100%;
+  height: 400px;       /* выше */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 30px 30px 40px;
+  color: white;
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.45); /* чуть темнее */
+  box-sizing: border-box;
+  border-radius: 14px;
+}
+
+.slide-content {
+  background: rgba(0, 0, 0, 0.65);
+  padding: 20px 30px;
+  border-radius: 12px;
+  max-width: 75%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.slide-content h3 {
+  margin: 0 0 10px;
+  font-size: 2rem;      /* крупнее */
+  font-weight: 700;
+}
+
+.slide-content p {
+  margin: 0;
+  font-size: 1.3rem;
+  opacity: 0.95;
+  line-height: 1.3;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  font-size: 3rem;      /* крупнее */
+  width: 55px;          /* больше кнопки */
+  height: 55px;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+
+.nav-button:hover {
+  background: rgba(0,0,0,0.85);
+}
+
+.nav-button.left {
+  left: 15px;
+}
+
+.nav-button.right {
+  right: 15px;
+}
