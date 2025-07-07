@@ -20,20 +20,27 @@ function Header() {
   // Поиск продуктов
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (query.trim()) {
-        fetch(`http://localhost:5000/api/products?search=${encodeURIComponent(query)}`)
+      const trimmedQuery = query.trim();
+  
+      if (trimmedQuery) {
+        const apiUrl = `http://localhost:5000/api/products?search=${encodeURIComponent(trimmedQuery)}`;
+  
+        fetch(apiUrl)
           .then(res => res.json())
           .then(data => setResults(data.products || []))
           .catch(err => console.error(err));
+  
         setIsDropdownVisible(true);
       } else {
+        // Если строка пустая — сбросить результаты
         setResults([]);
         setIsDropdownVisible(false);
       }
     }, 300);
+  
     return () => clearTimeout(timeout);
   }, [query]);
-
+  
   // Закрытие выпадашек по клику вне
   useEffect(() => {
     function handleClickOutside(event) {
