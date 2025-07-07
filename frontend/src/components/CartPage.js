@@ -1,7 +1,5 @@
 import React from 'react';
 import { useCart } from './CartContext';
-import '../Home.css';
-import '../ProductsList.css'; // стили для карточек (если у тебя есть)
 import HomeParticles from './HomeParticles';
 import ParticlesBackground from './ParticlesBackground';
 

@@ -265,6 +265,7 @@
 }
 
 /* Выпадающее меню поиска */
+/* Выпадающее меню поиска */
 .search-dropdown {
   position: absolute;
   top: 100%;
@@ -303,9 +304,20 @@
   transition: background 0.2s ease;
 }
 
+
 .search-dropdown li:hover,
 .search-dropdown li.active {
   background: linear-gradient(90deg, #f39c12, #e74c3c);
+  color: white;
+}
+
+.search-dropdown li a {
+  color: white;
+  text-decoration: none; /* убираем подчёркивание */
+}
+
+.search-dropdown li a:hover,
+.search-dropdown li a:focus {
   color: white;
 }
 

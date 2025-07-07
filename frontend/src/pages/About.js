@@ -1,14 +1,14 @@
 import React from 'react';
-import '../Home.css'; 
+import './About.css'
 import ParticlesBackground from '../components/ParticlesBackground';
 import HomeParticles from '../components/HomeParticles';
 
 const About = () => {
   return (
     <>
-      <ParticlesBackground />
-      <div className="home-container about-clean">
-        <HomeParticles />
+  <ParticlesBackground />
+      <div className="about-container">
+      <HomeParticles />
         <h1>О нас</h1>
         <p className="intro-text">
           Добро пожаловать в наш магазин компьютерной техники! Мы предлагаем широкий выбор качественных продуктов и всегда готовы помочь вам с выбором.
@@ -19,14 +19,14 @@ const About = () => {
           <button className="btn">Специальные предложения</button>
         </div>
         
-        <section className="about">
+        <section className="aboutabout">
           <h2>Наша миссия</h2>
           <p>
             Предоставлять качественную компьютерную технику и отличный сервис нашим клиентам.
           </p>
         </section>
 
-        <section className="advantages">
+        <section className="about-advantages">
           <h2>Преимущества</h2>
           <ul>
             <li>Широкий ассортимент</li>
@@ -35,12 +35,12 @@ const About = () => {
           </ul>
         </section>
 
-        <section className="special-offers">
+        <section className="about-special-offers">
           <h2>Специальные предложения</h2>
           <p>Следите за акциями и скидками на самые популярные товары.</p>
         </section>
       </div>
-    </>
+      </>
   );
 };
 

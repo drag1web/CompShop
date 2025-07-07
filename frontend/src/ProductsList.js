@@ -1,90 +1,127 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductsList.css';
 
 function ProductsList() {
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState('Все');
-  const [loading, setLoading] = useState(true); // новое состояние
+  const [loading, setLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef();
 
+  const categoryRefs = useRef({});
+
+  // Загрузка товаров с сервера
   useEffect(() => {
     fetch('http://localhost:5000/api/products?limit=1000')
       .then(res => {
-        if (!res.ok) {
-          throw new Error(`Ошибка сервера: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Ошибка сервера: ${res.status}`);
         return res.json();
       })
       .then(data => {
-        console.log('Данные с сервера:', data);
         setProducts(data.products || []);
         setLoading(false);
       })
-      .catch(err => {
-        console.error('Ошибка загрузки:', err);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  const categories = ['Все', ...new Set(products.map(p => p.category))];
+  // Получаем уникальные категории из списка товаров
+  const categories = [...new Set(products.map(p => p.category))];
 
-  const filteredProducts =
-    category === 'Все'
-      ? products
-      : products.filter(p => p.category === category);
+  // Создаем рефы для каждой категории (делаем это в useEffect, чтобы не создавать на каждом рендере)
+  useEffect(() => {
+    categories.forEach(cat => {
+      if (!categoryRefs.current[cat]) {
+        categoryRefs.current[cat] = React.createRef();
+      }
+    });
+  }, [categories]);
 
-  const handleCategoryChange = (cat) => {
-    setCategory(cat);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Обработчик выбора категории из меню — закрываем меню и скроллим к секции
+  const handleCategorySelect = (cat) => {
+    setDropdownOpen(false);
+    const section = categoryRefs.current[cat]?.current;
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
-  return (
-    <div className="products-container">
-      <div className="categories-menu">
-        {categories.map(cat => (
-          <button
-            key={cat}
-            className={cat === category ? 'category-btn active' : 'category-btn'}
-            onClick={() => handleCategoryChange(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+  // Закрываем выпадающее меню при клике вне его
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-      <div className="page-fade">
-        {loading ? (
-          <div className="loader">Загрузка товаров...</div>
-        ) : filteredProducts.length === 0 ? (
-          <div className="no-products">Нет товаров в этой категории.</div>
-        ) : (
-          <div className="products-grid">
-            {filteredProducts.map(product => (
-              <Link
-                to={`/product/${product.id}`}
-                key={product.id}
-                className="product-card"
-                style={{ textDecoration: 'none', color: 'inherit' }}
+  if (loading) return <div className="loader1">Загрузка товаров...</div>;
+  if (products.length === 0) return <div className="no-products1">Товары не найдены.</div>;
+
+  return (
+    <div className="products-container1">
+      <div className="dropdown1" ref={dropdownRef}>
+        <button
+          className="dropdown-toggle1"
+          onClick={e => {
+            e.stopPropagation(); // Останавливаем всплытие, чтобы не сработал глобальный клик
+            setDropdownOpen(!dropdownOpen);
+          }}
+        >
+          Выберите категорию ▼
+        </button>
+        {dropdownOpen && (
+          <ul className="dropdown-menu1">
+            {categories.map(cat => (
+              <li
+                key={cat}
+                onClick={() => handleCategorySelect(cat)}
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="product-image"
-                />
-                <h2>{product.name}</h2>
-                <p className="description">{product.description}</p>
-                <p className="price">{product.price.toLocaleString()} ₽</p>
-                <button
-                  className="btn btn-primary"
-                  onClick={e => e.preventDefault()}
-                >
-                  Купить
-                </button>
-              </Link>
+                {cat}
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
+
+      {categories.map(cat => (
+        <section
+          key={cat}
+          className="category-section1"
+          ref={categoryRefs.current[cat]}
+          id={`category-${cat.replace(/\s+/g, '-')}`}
+        >
+          <h2>{cat}</h2>
+          <div className="products-grid1">
+            {products
+              .filter(p => p.category === cat)
+              .map(product => (
+                <Link
+                  to={`/product/${product.id}`}
+                  key={product.id}
+                  className="product-card1"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="product-image1"
+                  />
+                  <h2>{product.name}</h2>
+                  <p className="description1">{product.description}</p>
+                  <p className="price1">{product.price.toLocaleString()} ₽</p>
+                  <button
+                    className="btn1 btn-primary1"
+                    onClick={e => e.preventDefault()}
+                  >
+                    Купить
+                  </button>
+                </Link>
+              ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
