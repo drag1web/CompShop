@@ -15,6 +15,7 @@ function ProductsList() {
   const categoryRefs = useRef({});
   const { favourites, setFavourites } = useFavourites();
 
+  // Загрузка товаров с сервера
   useEffect(() => {
     fetch('http://localhost:5000/api/products?limit=1000')
       .then(res => {
