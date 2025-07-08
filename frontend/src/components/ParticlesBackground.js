@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 
 const ParticlesBackground = () => {
   const canvasRef = useRef(null);
-  const particlesArray = [];
-  const colors = ['#FF6F00', '#FF3D00', '#FFD600']; // оранжевый, красный, желтый
+  const particlesArray = useRef([]);
+  const colors = useMemo(() => ['#FF6F00', '#FF3D00', '#FFD600'], []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -38,16 +38,16 @@ const ParticlesBackground = () => {
     }
 
     function init() {
-      particlesArray.length = 0;
+      particlesArray.current.length = 0;
       for (let i = 0; i < 150; i++) {
-        particlesArray.push(new Particle());
+        particlesArray.current.push(new Particle());
       }
     }
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      particlesArray.forEach(p => {
+      particlesArray.current.forEach(p => {
         p.update();
         p.draw();
       });
@@ -69,7 +69,7 @@ const ParticlesBackground = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [colors]);
 
   return (
     <canvas
@@ -79,7 +79,7 @@ const ParticlesBackground = () => {
         top: 0,
         left: 0,
         zIndex: -1,
-        background: 'linear-gradient(135deg, #000000, #1a1a1a)', // градиент от черного к темно-серому
+        background: 'linear-gradient(135deg, #000000, #1a1a1a)',
         width: '100%',
         height: '100%',
       }}

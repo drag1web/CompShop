@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductsList.css';
 import { useFavourites } from './components/FavouritesContext';
@@ -29,7 +29,10 @@ function ProductsList() {
       .catch(() => setLoading(false));
   }, []);
 
-  const categories = [...new Set(products.map(p => p.category))];
+  const categories = useMemo(() => {
+    return [...new Set(products.map(p => p.category))];
+  }, [products]);
+
 
   useEffect(() => {
     categories.forEach(cat => {
