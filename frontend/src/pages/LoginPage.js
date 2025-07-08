@@ -45,7 +45,7 @@ export default function LoginPage() {
             required
           />
         </label>
-        <button type="submit" className="btn">Войти</button>
+        <button type="submit" className="btn1">Войти</button>
       </form>
       <p>Нет аккаунта? <Link to="/register">Зарегистрироваться</Link></p>
     </div>

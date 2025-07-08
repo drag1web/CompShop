@@ -143,7 +143,7 @@ function ProductPage() {
           </table>
 
           {product.specs && product.specs.length > 0 && (
-            <div>
+            <div className='product-description'>
               <strong>Характеристики:</strong>
               <ul>
                 {product.specs.map((spec, i) => (

@@ -5,8 +5,12 @@ const jwt = require('jsonwebtoken');
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Все поля обязательны для заполнения' });
+  }
+
   try {
-    // Проверка: существует ли пользователь
+    // Проверка: существует ли пользователь с таким email
     const existingUser = await req.db.query('SELECT * FROM users WHERE email = $1', [email]);
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ message: 'Пользователь с таким email уже существует' });
@@ -31,6 +35,10 @@ exports.register = async (req, res) => {
 // Логин пользователя
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email и пароль обязательны' });
+  }
 
   try {
     // Ищем пользователя

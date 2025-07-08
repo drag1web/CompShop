@@ -55,7 +55,7 @@ export default function RegisterPage() {
             required
           />
         </label>
-        <button type="submit" className="btn">Зарегистрироваться</button>
+        <button type="submit" className="btn1">Зарегистрироваться</button>
       </form>
       <p>Уже есть аккаунт? <Link to="/login">Войти</Link></p>
     </div>

@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db');  // Импорт пула из db.js
 const authRoutes = require('./routes/authRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const jwt = require('jsonwebtoken');
+
 
 const app = express();
 
@@ -11,6 +14,9 @@ app.use((req, res, next) => {
   req.db = pool;
   next();
 });
+
+app.use('/api/cart', cartRoutes);
+
 
 // Проверка подключения к базе
 app.get('/api/test', async (req, res) => {
@@ -52,8 +58,8 @@ app.get('/api/products/:id', async (req, res) => {
 
 
 // Получить корзину пользователя
-app.get('/api/cart/:userId', async (req, res) => {
-  const { userId } = req.params;
+app.get('/api/cart', authMiddleware, async (req, res) => {
+  const userId = req.user.id;
   try {
     const result = await pool.query(
       `SELECT c.product_id, p.name, p.price, c.quantity 
@@ -69,9 +75,11 @@ app.get('/api/cart/:userId', async (req, res) => {
   }
 });
 
+
 // Добавить товар в корзину
 app.post('/api/cart', async (req, res) => {
-  const { userId, productId, quantity } = req.body;
+  const userId = req.user.id;
+  const { productId, quantity } = req.body;
   try {
     const updateResult = await pool.query(
       `UPDATE cart_items SET quantity = quantity + $3 
@@ -95,7 +103,8 @@ app.post('/api/cart', async (req, res) => {
 
 // Обновить количество товара в корзине
 app.put('/api/cart', async (req, res) => {
-  const { userId, productId, quantity } = req.body;
+  const userId = req.user.id;
+  const { productId, quantity } = req.body;
   try {
     if (quantity <= 0) {
       await pool.query(
@@ -117,19 +126,17 @@ app.put('/api/cart', async (req, res) => {
 });
 
 // Удалить товар из корзины
-app.delete('/api/cart', async (req, res) => {
-  const { userId, productId } = req.body;
+app.delete('/api/cart/clear', authMiddleware, async (req, res) => {
+  const userId = req.user.id;
   try {
-    await pool.query(
-      `DELETE FROM cart_items WHERE user_id = $1 AND product_id = $2`,
-      [userId, productId]
-    );
-    res.json({ message: 'Товар удалён из корзины' });
+    await pool.query('DELETE FROM cart_items WHERE user_id = $1', [userId]);
+    res.json({ message: 'Корзина очищена' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Ошибка при удалении товара' });
+    res.status(500).json({ error: 'Ошибка при очистке корзины' });
   }
 });
+
 
 app.use('/api/auth', authRoutes);
 
@@ -138,3 +145,19 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+function authMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: 'Нет авторизации' });
+
+  const token = authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'Нет токена' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // { id, username, iat, exp }
+    next();
+  } catch (e) {
+    return res.status(401).json({ message: 'Неверный токен' });
+  }
+}

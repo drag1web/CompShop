@@ -480,3 +480,10 @@
   background-color: #7f1d1d;
   color: #fef2f2;
 }
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}

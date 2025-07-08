@@ -166,7 +166,7 @@ html, body, #root {
   font-weight: 700;
   margin-bottom: 18px;
   line-height: 1.2;
-  color: #111;
+  color: #ffffff;
 }
 
 .product-rating-stock {
@@ -175,7 +175,7 @@ html, body, #root {
   gap: 32px;
   margin-bottom: 22px;
   font-size: 1rem;
-  color: #666;
+  color: #ffffff;
 }
 
 .rating {
@@ -196,11 +196,12 @@ html, body, #root {
 
 .rating-value {
   font-weight: 700;
-  color: #222;
+  color: #ffffff;
 }
 
 .rating-max {
-  color: #999;
+  font-weight: 700;
+  color: #fdfdfd;
 }
 
 .stock {
@@ -327,7 +328,7 @@ html, body, #root {
   border-collapse: collapse;
   margin-bottom: 36px;
   font-size: 1rem;
-  color: #444;
+  color: #ffffff;
 }
 
 .product-info-extra td {
@@ -338,7 +339,7 @@ html, body, #root {
 
 .product-info-extra td:first-child {
   font-weight: 600;
-  color: #666;
+  color: #ffffff;
   width: 150px;
 }
 
@@ -351,19 +352,21 @@ html, body, #root {
 .product-description {
   border-top: 1px solid #eee;
   padding-top: 24px;
+  color: #ffffff;
+  font-weight: 700px;
 }
 
 .product-description h3 {
   font-weight: 700;
   margin-bottom: 12px;
   font-size: 1.3rem;
-  color: #333;
+  color: #ffffff;
 }
 
 .product-description p {
   font-size: 1rem;
   line-height: 1.6;
-  color: #555;
+  color: #ffffff;
 }
 
 /* Loading and error */

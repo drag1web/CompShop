@@ -180,7 +180,7 @@
 }
 
 .product-card1:hover {
-  transform: translateY(-14px) scale(1.06);
+  transform: translateY(-14px) scale(1.0);
   box-shadow: 0 22px 60px rgba(231, 76, 60, 0.45);
 }
 
@@ -204,7 +204,7 @@
 }
 
 .product-card1:hover .product-image1 {
-  transform: scale(1.1);
+  transform: scale(1.02);
   box-shadow: 0 12px 38px rgba(231, 76, 60, 0.55);
 }
 
@@ -311,7 +311,7 @@
 .dropdown-menu1 li:hover {
   background: #fbe6e1;
   color: #e74c3c;
-  transform: scale(1.07);
+  transform: scale(1.04);
 }
 
 .dropdown-menu1 li.active {
@@ -347,4 +347,58 @@
   font-size: 1.4rem;
   color: #999;
   font-weight: 600;
+}
+
+.product-card1 {
+  position: relative;
+  /* остальные стили карточки */
+}
+
+
+/* Стили кнопки избранного */
+.btn-favourite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-favourite:hover {
+  transform: scale(1.1);
+}
+
+.btn-favourite:active {
+  transform: scale(0.95);
+}
+
+/* Стили иконки внутри кнопки */
+.favourite-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  pointer-events: none; /* Чтобы клик шел на кнопку, а не картинку */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-favourite.active .favourite-icon {
+  transform: scale(1.2);
+}
+
+/* Карточка товара (чтобы кнопка вставала сверху) */
+.product-card1 {
+  position: relative; /* важно для позиционирования кнопки */
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card1:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

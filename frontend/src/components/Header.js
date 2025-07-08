@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import './Header.css';
 import { useCart } from './CartContext';
 import { useAuth } from './AuthContext';
+import aboutIcon from './assets/icons/about.png';
+import contactsIcon from './assets/icons/contacts.png';
+import cartIcon from './assets/icons/cart.png';
+import profileIcon from './assets/icons/user-interface.png';
+import loginIcon from './assets/icons/logout.png';
+import boxesIcon from './assets/icons/boxes.png';
+import heartIcon from './assets/icons/heart.png';
+
 
 function Header() {
   const { cartItems } = useCart();
@@ -16,7 +24,13 @@ function Header() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const profileRef = useRef(null);
-
+  const handleLogout = async () => {
+    if (user?.id) {
+      await fetch(`http://localhost:5000/api/cart/clear/${user.id}`, { method: 'DELETE' });
+    }
+    logout();
+  };
+  
   // Поиск продуктов
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -117,32 +131,53 @@ function Header() {
         </div>
 
         <nav className="nav">
-          <Link to="/catalog">Каталог</Link>
-          <Link to="/about">Мы</Link>
-          <Link to="/contacts">Контакты</Link>
-          <Link to="/cart" className="nav-link cart-button">
-            🛒
-            {totalCount > 0 && <span className="cart-count">{totalCount}</span>}
-          </Link>
+  <Link to="/catalog">
+    <img src={boxesIcon} alt="Каталог" className="nav-icon" /> Каталог
+  </Link>
+  <Link to="/about">
+    <img src={aboutIcon} alt="Мы" className="nav-icon" /> Мы
+  </Link>
+  <Link to="/contacts">
+    <img src={contactsIcon} alt="Заказы" className="nav-icon" /> Заказы
+  </Link>
+  <Link to="/cart" className="nav-link cart-button">
+    <img src={cartIcon} alt="Корзина" className="nav-icon" /> 
+    {totalCount > 0 && <span className="cart-count">{totalCount}</span>}
+  </Link>
 
-          {user ? (
-            <div className="profile-wrapper" ref={profileRef}>
-              <button
-                className="profile-button"
-                onClick={() => setProfileMenuOpen(prev => !prev)}
-              >
-                👤 {user.username} ▾
-              </button>
-              <div className={`profile-dropdown ${profileMenuOpen ? 'show' : ''}`}>
-                <Link to="/profile" className="dropdown-item">Мой профиль</Link>
-                <Link to="/orders" className="dropdown-item">Заказы</Link>
-                <button className="dropdown-item" onClick={logout}>Выйти</button>
-              </div>
-            </div>
-          ) : (
-            <Link to="/login" className="nav-link login-btn">Войти</Link>
-          )}
-        </nav>
+  {user ? (
+    <div className="profile-wrapper" ref={profileRef}>
+      <button
+        className="profile-button"
+        onClick={() => setProfileMenuOpen(prev => !prev)}
+      >
+        <img src={loginIcon} alt="Профиль" className="nav-icon" /> {user.username} ▾
+      </button>
+      <div className={`profile-dropdown ${profileMenuOpen ? 'show' : ''}`}>
+        <Link to="/profile" className="dropdown-item">
+        <img src={profileIcon} alt="Войти" className="nav-icon" /> Мой профиль
+        </Link>
+        <Link to="/orders" className="dropdown-item">
+          📦 Заказы
+        </Link>
+        <Link to="/support" className="dropdown-item">
+          📦 Поддержка
+        </Link>
+        <Link to="/favourites" className="dropdown-item">
+        <img src={heartIcon} alt="Войти" className="nav-icon" /> Избранное
+        </Link>
+        <button className="dropdown-item" onClick={handleLogout}>
+        <img src={loginIcon} alt="Профиль" className="nav-icon" />  Выйти
+        </button>
+      </div>
+    </div>
+  ) : (
+    <Link to="/login" className="nav-link login-btn">
+      <img src={profileIcon} alt="Войти" className="nav-icon" /> Войти
+    </Link>
+  )}
+</nav>
+
       </div>
     </header>
   );

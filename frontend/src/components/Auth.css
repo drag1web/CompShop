@@ -129,7 +129,7 @@
   }
   
   /* Кнопка */
-  .btn {
+  .btn1 {
     width: 100%;
     padding: 16px;
     font-size: 1.15rem;
@@ -146,7 +146,7 @@
     z-index: 1;
   }
   
-  .btn::after {
+  .btn1::after {
     content: "";
     position: absolute;
     left: 50%;
@@ -161,11 +161,11 @@
     z-index: 0;
   }
   
-  .btn:hover::after {
+  .btn1:hover::after {
     transform: translate(-50%, -50%) scale(1);
   }
   
-  .btn:hover {
+  .btn1:hover {
     transform: translateY(-5px) scale(1.03);
     background: linear-gradient(90deg, #e67e22, #c0392b);
     box-shadow: 0 12px 30px rgba(230, 126, 34, 0.8);
@@ -201,7 +201,7 @@
       font-size: 2.2rem;
     }
   
-    .btn {
+    .btn1 {
       font-size: 1rem;
       padding: 12px;
     }

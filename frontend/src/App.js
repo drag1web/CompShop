@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
 import Home from './Home';
 import About from './pages/About';
 import Catalog from './Catalog';
@@ -10,10 +11,16 @@ import LoginPage from './pages/LoginPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Scrollbutton from './components/Scrollbutton';
+
 import { CartProvider } from './components/CartContext';
 import { AuthProvider } from './components/AuthContext';
+import { FavouritesProvider } from './components/FavouritesContext';
+
 import ParticlesBackground from './components/ParticlesBackground';
 import HomeParticles from './components/HomeParticles';
+
+import ProductsList from './ProductsList';
+import Favourites from './components/Favourites';
 
 function AppContent() {
   const location = useLocation();
@@ -38,6 +45,8 @@ function AppContent() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/products" element={<ProductsList />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </div>
 
@@ -51,11 +60,16 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Router>
-          <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <AppContent />
-          </div>
-        </Router>
+        <FavouritesProvider>
+          <Router>
+            <div
+              className="App"
+              style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+            >
+              <AppContent />
+            </div>
+          </Router>
+        </FavouritesProvider>
       </CartProvider>
     </AuthProvider>
   );

@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductsList.css';
+import { useFavourites } from './components/FavouritesContext';
+
+// ✅ Путь к иконкам
+import likeIcon from './components/assets/icons/like.png';
+import heartIcon from './components/assets/icons/heart1.png';
 
 function ProductsList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef();
-
   const categoryRefs = useRef({});
+  const { favourites, setFavourites } = useFavourites();
 
-  // Загрузка товаров с сервера
   useEffect(() => {
     fetch('http://localhost:5000/api/products?limit=1000')
       .then(res => {
@@ -24,10 +28,8 @@ function ProductsList() {
       .catch(() => setLoading(false));
   }, []);
 
-  // Получаем уникальные категории из списка товаров
   const categories = [...new Set(products.map(p => p.category))];
 
-  // Создаем рефы для каждой категории (делаем это в useEffect, чтобы не создавать на каждом рендере)
   useEffect(() => {
     categories.forEach(cat => {
       if (!categoryRefs.current[cat]) {
@@ -36,7 +38,6 @@ function ProductsList() {
     });
   }, [categories]);
 
-  // Обработчик выбора категории из меню — закрываем меню и скроллим к секции
   const handleCategorySelect = (cat) => {
     setDropdownOpen(false);
     const section = categoryRefs.current[cat]?.current;
@@ -45,7 +46,6 @@ function ProductsList() {
     }
   };
 
-  // Закрываем выпадающее меню при клике вне его
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -59,17 +59,30 @@ function ProductsList() {
   if (loading) return <div className="loader1">Загрузка товаров...</div>;
   if (products.length === 0) return <div className="no-products1">Товары не найдены.</div>;
 
+  const isFavourite = (productId) => favourites.some(fav => fav.id === productId);
+
+  const toggleFavourite = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isFavourite(product.id)) {
+      setFavourites(favourites.filter(fav => fav.id !== product.id));
+    } else {
+      setFavourites([...favourites, product]);
+    }
+  };
+
   return (
     <div className="products-container1">
       <div className="dropdown1" ref={dropdownRef}>
         <button
           className="dropdown-toggle1"
           onClick={e => {
-            e.stopPropagation(); // Останавливаем всплытие, чтобы не сработал глобальный клик
+            e.stopPropagation();
             setDropdownOpen(!dropdownOpen);
           }}
         >
-          Выберите категорию ▼
+          Категория ▼
         </button>
         {dropdownOpen && (
           <ul className="dropdown-menu1">
@@ -111,12 +124,22 @@ function ProductsList() {
                   <h2>{product.name}</h2>
                   <p className="description1">{product.description}</p>
                   <p className="price1">{product.price.toLocaleString()} ₽</p>
+
+                  {/* ✅ Кнопка избранного с иконками */}
                   <button
-                    className="btn1 btn-primary1"
-                    onClick={e => e.preventDefault()}
+                    className={`btn-favourite ${isFavourite(product.id) ? 'active' : ''}`}
+                    onClick={e => toggleFavourite(e, product)}
+                    aria-label={isFavourite(product.id) ? 'Удалить из избранного' : 'Добавить в избранное'}
+                    title={isFavourite(product.id) ? 'Удалить из избранного' : 'Добавить в избранное'}
+                    type="button"
                   >
-                    Купить
+                    <img
+                      src={isFavourite(product.id) ? heartIcon : likeIcon}
+                      alt="Избранное"
+                      className="favourite-icon"
+                    />
                   </button>
+
                 </Link>
               ))}
           </div>
