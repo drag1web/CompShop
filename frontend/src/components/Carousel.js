@@ -31,25 +31,18 @@ function Carousel() {
     timeoutRef.current = setTimeout(() => {
       goNext();
     }, 4000);
+
     return () => clearTimeout(timeoutRef.current);
   }, [currentIndex]);
 
-  const goPrev = () => {
-    clearTimeout(timeoutRef.current);
-    setDirection('prev');
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
   const goNext = () => {
-    clearTimeout(timeoutRef.current);
-    setDirection('next');
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
+    clearTimeout(timeoutRef.current); // Очищаем таймер
+    setDirection('next'); // Устанавливаем направление прокрутки
+    setCurrentIndex((prev) => (prev + 1) % slides.length); // Обновляем индекс слайдов
   };
 
   return (
     <div className="carousel">
-      <button className="nav-button left" onClick={goPrev} aria-label="Previous slide">‹</button>
-
       <div className="slider-window">
         <div
           className={`slider-track ${direction}`}
@@ -70,7 +63,6 @@ function Carousel() {
         </div>
       </div>
 
-      <button className="nav-button right" onClick={goNext} aria-label="Next slide">›</button>
     </div>
   );
 }

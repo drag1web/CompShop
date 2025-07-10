@@ -63,18 +63,50 @@ function ProductsList() {
   if (loading) return <div className="loader1">Загрузка товаров...</div>;
   if (products.length === 0) return <div className="no-products1">Товары не найдены.</div>;
 
+  const favouriteProducts = products.filter(product =>
+    favourites.some(fav => fav.id === product.id)
+  );
+
   const isFavourite = (productId) => favourites.some(fav => fav.id === productId);
 
   const toggleFavourite = (e, product) => {
-    e.preventDefault();
-    e.stopPropagation();
+  e.preventDefault();
+  e.stopPropagation();
 
-    if (isFavourite(product.id)) {
-      setFavourites(favourites.filter(fav => fav.id !== product.id));
-    } else {
-      setFavourites([...favourites, product]);
-    }
-  };
+  // Проверяем, есть ли товар в избранном
+  const isAlreadyFavourite = isFavourite(product.id);
+
+  // Если товар в избранном
+  if (isAlreadyFavourite) {
+    // Удаляем товар из избранного
+    const updatedFavourites = favourites.filter(fav => fav.id !== product.id);
+    setFavourites(updatedFavourites); // Обновляем контекст с новыми избранными товарами
+
+    // Отправляем запрос на сервер для удаления
+    fetch(`http://localhost:5000/api/favourites/${product.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    }).catch(console.error);
+  } else {
+    // Добавляем товар в избранное
+    const updatedFavourites = [...favourites, product];
+    setFavourites(updatedFavourites); // Обновляем контекст с новыми избранными товарами
+
+    // Отправляем запрос на сервер для добавления
+    fetch('http://localhost:5000/api/favourites', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId: product.id }),
+    }).catch(console.error);
+  }
+};
+
+  
 
   return (
     <div className="products-container1">

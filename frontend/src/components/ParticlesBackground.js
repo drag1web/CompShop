@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useMemo } from 'react';
 
-const ParticlesBackground = () => {
+const ParticlesBackground = ({ children }) => {
   const canvasRef = useRef(null);
   const particlesArray = useRef([]);
   const colors = useMemo(() => ['#FF6F00', '#FF3D00', '#FFD600'], []);
@@ -47,7 +47,7 @@ const ParticlesBackground = () => {
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      particlesArray.current.forEach(p => {
+      particlesArray.current.forEach((p) => {
         p.update();
         p.draw();
       });
@@ -72,18 +72,23 @@ const ParticlesBackground = () => {
   }, [colors]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: -1,
-        background: 'linear-gradient(135deg, #000000, #1a1a1a)',
-        width: '100%',
-        height: '100%',
-      }}
-    />
+    <div style={{ position: 'relative' }}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: -1,
+          background: 'linear-gradient(135deg, #000000, #1a1a1a)',
+          width: '100%',
+          height: '100%',
+        }}
+      />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {children}
+      </div>
+    </div>
   );
 };
 

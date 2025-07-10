@@ -1,0 +1,106 @@
+.products-container-favourites {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px 20px;
+    background-color: #111;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 1; /* повыше фона */
+  }
+  
+  .product-card-favourites {
+    display: flex;
+    flex-direction: column;
+    width: 220px; /* фиксированная ширина */
+    background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(20, 20, 20, 0.95));
+    border: 1px solid #ffc107;
+    border-radius: 14px;
+    overflow: hidden;
+    text-align: center;
+    color: #f1f1f1;
+    text-decoration: none;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
+    transition: 
+      transform 0.35s ease, 
+      box-shadow 0.35s ease,
+      background 0.4s ease;
+    position: relative;
+  }
+  
+  .product-card-favourites:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 0 40px rgba(255, 193, 7, 0.6);
+    background: linear-gradient(145deg, rgba(40, 40, 40, 0.95), rgba(30, 30, 30, 0.95));
+  }
+  
+  .product-card-favourites img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-bottom: 1px solid #333;
+    transition: transform 0.4s ease;
+  }
+  
+  .product-card-favourites:hover img {
+    transform: scale(1.05);
+  }
+  
+  .product-card-favourites h2 {
+    font-size: 1.2rem;
+    margin: 12px 0 6px;
+    color: #ffc107;
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+    transition: color 0.3s ease;
+  }
+  
+  .product-card-favourites:hover h2 {
+    color: #ffeb3b;
+  }
+  
+  .product-card-favourites p {
+    font-size: 1rem;
+    color: #ddd;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+  }
+  
+  .product-card-favourites:hover p {
+    color: #fff;
+  }
+  
+  @media (max-width: 768px) {
+    .product-card-favourites {
+      width: 160px;
+    }
+  
+    .product-card-favourites img {
+      height: 120px;
+    }
+  
+    .product-card-favourites h2 {
+      font-size: 1rem;
+    }
+  
+    .product-card-favourites p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .empty-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #ff9800;
+    margin-top: 100px;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+  }
+  
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+  

@@ -1,51 +1,115 @@
-/* src/Footer.css */
+/* Общий стиль футера */
 .footer {
-    background-color: rgba(28, 28, 28, 0.7); /* полупрозрачный чёрный */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #fff;
-    padding: 30px 20px 10px;
-    margin-top: auto;
-    position: relative; /* чтобы нормально работал слой */
-    z-index: 10;
+  background-color: rgba(28, 28, 28, 0.7); /* Прозрачный темный фон, как в header */
+  backdrop-filter: blur(8px); /* Эффект размытия фона */
+  -webkit-backdrop-filter: blur(8px); /* Поддержка для старых браузеров */
+  color: #f0c040; /* Золотистый текст */
+  padding: 40px 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Тень, чтобы отделить футер от контента */
+  position: relative;
+  z-index: 10; /* Чтобы футер был на переднем плане */
+  overflow: visible;
+}
+
+/* Контент футера */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Секция футера */
+.footer-section {
+  flex: 1;
+  padding: 0 15px;
+}
+
+/* Заголовки секций футера */
+.footer-section h3,
+.footer-section h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: uppercase; /* Чтобы текст был более выразительным */
+  letter-spacing: 1px;
+}
+
+/* Параграфы футера */
+.footer-section p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #f0c040; /* Цвет текста, схожий с header */
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+/* Наведение на параграфы */
+.footer-section p:hover {
+  opacity: 1;
+}
+
+/* Социальные иконки */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #f0c040;
+  font-size: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #e67e22; /* Ярко-оранжевый при ховере */
+  transform: scale(1.1); /* Легкий эффект увеличения */
+}
+
+/* Нижняя часть футера */
+.footer-bottom {
+  background-color: rgba(28, 28, 28, 0.8); /* Более темный фон */
+  color: #f0c040;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* Анимация для соцсетей */
+@keyframes fadeInSocial {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Применяем анимацию к социальным иконкам */
+.social-icons a {
+  animation: fadeInSocial 1s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
   .footer-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .footer-content h3,
-  .footer-content h4 {
-    margin-bottom: 10px;
-    color: #f0c040;
-  }
-  
-  .footer-bottom {
+    flex-direction: column;
     text-align: center;
-    padding-top: 20px;
-    font-size: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-section {
+    margin-bottom: 20px;
+  }
+
+  .social-icons {
     margin-top: 20px;
   }
-  
-  .social-icons {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-  }
-  
-  .social-icons a {
-    color: #f0c040;
-    font-size: 24px;
-    transition: color 0.3s;
-  }
-  
-  .social-icons a:hover {
-    color: #ffffff;
-  }
-  
+}

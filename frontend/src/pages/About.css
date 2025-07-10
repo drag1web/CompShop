@@ -115,7 +115,10 @@
 /* Секции */
 .aboutabout,
 .about-advantages,
-.about-special-offers {
+.about-special-offers,
+.about-reviews,
+.about-team,
+.about-contact {
   background: rgba(255, 255, 255, 0.1);
   padding: 30px 30px;
   border-radius: 15px;
@@ -128,7 +131,10 @@
 
 .aboutabout h2,
 .about-advantages h2,
-.about-special-offers h2 {
+.about-special-offers h2,
+.about-reviews h2,
+.about-team h2,
+.about-contact h2 {
   font-size: 2rem;
   margin-bottom: 15px;
   color: #fff;
@@ -138,14 +144,68 @@
   user-select: none;
 }
 
-.about-advantages ul {
-  list-style: disc;
-  padding-left: 20px;
+.about-advantages ul,
+.about-reviews ul,
+.about-team ul,
+.about-contact ul {
+  list-style: none;
+  padding-left: 0;
   font-size: 1.1rem;
 }
 
-.about-advantages li {
+.about-advantages li,
+.about-reviews li,
+.about-team li,
+.about-contact li {
   margin-bottom: 12px;
+}
+
+.about-reviews blockquote {
+  font-size: 1.15rem;
+  font-style: italic;
+  border-left: 4px solid var(--secondary-color);
+  padding-left: 15px;
+  margin-bottom: 20px;
+}
+
+.about-team ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.about-team li {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.about-team li::before {
+  content: "💻";
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.about-contact ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about-contact li {
+  font-size: 1.1rem;
+}
+
+.about-contact a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.about-contact a:hover {
+  color: var(--primary-color);
 }
 
 /* Анимация плавного появления */
@@ -162,7 +222,10 @@
 
 .aboutabout,
 .about-advantages,
-.about-special-offers {
+.about-special-offers,
+.about-reviews,
+.about-team,
+.about-contact {
   animation: fadeInUp 1s ease forwards;
   opacity: 0;
 }
@@ -179,6 +242,18 @@
   animation-delay: 0.9s;
 }
 
+.about-reviews {
+  animation-delay: 1.2s;
+}
+
+.about-team {
+  animation-delay: 1.5s;
+}
+
+.about-contact {
+  animation-delay: 1.8s;
+}
+
 /* Адаптив */
 @media screen and (max-width: 720px) {
   .about-container {
@@ -192,5 +267,13 @@
   .btn {
     width: 100%;
     margin-bottom: 15px;
+  }
+
+  .about-team ul {
+    grid-template-columns: 1fr;
+  }
+
+  .about-contact ul {
+    padding-left: 20px;
   }
 }

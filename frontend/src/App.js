@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Scrollbutton from './components/Scrollbutton';
+import SocialMenu from './components/SocialMenu';
 
 import { CartProvider } from './components/CartContext';
 import { AuthProvider } from './components/AuthContext';
@@ -27,7 +28,6 @@ function AppContent() {
   return (
     <>
       <Header />
-
       {location.pathname === '/' && (
         <>
           <ParticlesBackground />
@@ -48,7 +48,7 @@ function AppContent() {
           <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </div>
-
+      <SocialMenu/>
       <Footer />
       <Scrollbutton />
     </>

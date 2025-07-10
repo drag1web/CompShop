@@ -57,10 +57,17 @@
   text-shadow: 2px 2px 5px rgba(44, 62, 80, 0.3);
   margin: 30px 0 20px;
   letter-spacing: 1.2px;
-  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  background: linear-gradient(90deg, #ff9d00, #ff1900);
   background-clip: text; /* Стандартное свойство */
   -webkit-background-clip: text; /* Вендорное свойство для Safari и Chrome */
   -webkit-text-fill-color: transparent;
+
+  animation: glow 5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 5px #f39c12; color: #fff; }
+  50% { text-shadow: 0 0 20px #f39c12; color: #f39c12; }
 }
 
   
@@ -134,7 +141,7 @@
   padding: 60px 20px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
-  margin-bottom: 50px;
+  margin-bottom: 60px;
   position: relative;
   overflow: hidden;
 
@@ -151,6 +158,9 @@
   border-bottom: 4px solid #ffbc05;
   display: inline-block;
   padding-bottom: 8px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 
   background: linear-gradient(90deg, #f39c12, #e74c3c);
   -webkit-background-clip: text;
@@ -158,7 +168,13 @@
   background-clip: text;
   color: transparent;
 
-  animation: glowText 3s ease-in-out infinite alternate;
+  animation: glow 5s ease-in-out infinite alternate;
+}
+
+.advantages strong {
+  color: #ff7300;
+
+  animation: glow 10s ease-in-out infinite alternate;
 }
 
 /* Параграфы */
@@ -243,12 +259,41 @@
 }
 
 .hero-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    z-index: 2;
-    position: relative;
-  }
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  z-index: 2;
+  position: relative;
+  transform: translateY(-20px); /* поднимает кнопки на 20px */
+}
+
+
+.hero-buttons a {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #ffc107;
+  color: #000;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Эффект нажатия */
+.hero-buttons a:hover {
+  background-color: #ff9800;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 152, 0, 0.6);
+}
+
+/* Эффект при фокусе */
+.hero-buttons a:focus {
+  outline: none;
+  border: 2px solid #ff9800;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
+}
+
 
   .about-clean {
     position: relative;
@@ -477,6 +522,7 @@
   padding: 80px 20px;
   position: relative;
   overflow: hidden;
+  font-family: 'Arial', sans-serif;
 }
 
 /* Заголовок секции с эффектом свечения */
@@ -490,13 +536,26 @@
   animation: glow 2s ease-in-out infinite alternate;
 }
 
-/* Карточки отзывов */
-.testimonial-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+/* Подзаголовок */
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 40px;
+  font-weight: 300;
+  opacity: 0.7;
+  line-height: 1.5;
 }
 
+/* Список отзывов */
+.testimonial-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 отзыва в строке */
+  grid-template-rows: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Карточка отзыва */
 .testimonial-card {
   background: rgba(20, 20, 20, 0.85);
   border: 1px solid #ff9800;
@@ -516,7 +575,7 @@
   box-shadow: 0 0 30px rgba(255, 152, 0, 0.7), 0 0 60px rgba(255, 193, 7, 0.5);
 }
 
-/* Текст и автор */
+/* Текст отзыва */
 .testimonial-text {
   font-size: 1rem;
   color: #f1f1f1;
@@ -524,13 +583,48 @@
   margin-bottom: 15px;
 }
 
+/* Автор отзыва */
 .testimonial-author {
   font-weight: bold;
   color: #ffc107;
   font-size: 1.1rem;
+  display: block;
+  margin-top: 10px;
 }
 
-/* Анимация появления */
+/* Рейтинг */
+.testimonial-rating {
+  margin-top: 15px;
+}
+
+.rating-stars {
+  font-size: 1.25rem;
+  color: #ff9800;
+}
+
+/* Кнопка действия */
+.testimonial-call-to-action {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.cta-button {
+  background: #ffc107;
+  color: #000;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #ff9800;
+  transform: translateY(-5px);
+}
+
+/* Анимация появления карточек */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -542,7 +636,7 @@
   }
 }
 
-/* Свечение заголовка */
+/* Анимация свечения заголовка */
 @keyframes glow {
   from {
     text-shadow: 0 0 10px #ffc107, 0 0 20px #ff9800;
@@ -551,3 +645,4 @@
     text-shadow: 0 0 20px #ff9800, 0 0 40px #ffc107;
   }
 }
+

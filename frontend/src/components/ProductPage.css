@@ -6,6 +6,20 @@ html, body, #root {
     padding: 0;
   }
   
+  :root {
+    --color-primary: #ff6d00;
+    --color-primary-hover: #e65c00;
+    --color-text-main: #222222;
+    --color-text-light: #ffffff;
+    --color-bg-light: #ffffff;
+    --color-shadow: rgba(0,0,0,0.07);
+    --color-stock-in: #2d7a2d;
+    --color-stock-out: #a33632;
+    --font-family-main: 'Inter', sans-serif;
+    --border-radius: 10px;
+  }
+  
+  
   body {
     font-family: 'Inter', sans-serif;
     color: #222;
@@ -132,16 +146,40 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.product-images::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+  z-index: 1;
+}
+
+.product-images::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  z-index: 1;
 }
 
 .product-images img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   user-select: none;
   transform-origin: center center;
   animation: fadeScaleIn 0.8s ease forwards;
   opacity: 0;
+  z-index: 2;
 }
 
 @keyframes fadeScaleIn {
@@ -166,7 +204,7 @@ html, body, #root {
   font-weight: 700;
   margin-bottom: 18px;
   line-height: 1.2;
-  color: #ffffff;
+  color: var(--color-text-light);
 }
 
 .product-rating-stock {
@@ -175,7 +213,7 @@ html, body, #root {
   gap: 32px;
   margin-bottom: 22px;
   font-size: 1rem;
-  color: #ffffff;
+  color: var(--color-text-light);
 }
 
 .rating {
@@ -196,12 +234,12 @@ html, body, #root {
 
 .rating-value {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-text-light);
 }
 
 .rating-max {
   font-weight: 700;
-  color: #fdfdfd;
+  color: var(--color-text-light);
 }
 
 .stock {
@@ -291,32 +329,35 @@ html, body, #root {
   font-weight: 700;
   font-size: 1.15rem;
   cursor: pointer;
-  border: none;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  border: 2px solid transparent;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   user-select: none;
 }
 
+/* Для кнопки Добавить в корзину */
 .btn.add-to-cart {
-  background-color: #ff6d00;
-  color: white;
-  box-shadow: 0 6px 14px rgb(255 109 0 / 0.7);
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
 }
 
 .btn.add-to-cart:hover {
-  background-color: #e65c00;
-  box-shadow: 0 8px 22px rgb(230 92 0 / 0.8);
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
+/* Для кнопки Купить сейчас */
 .btn.buy-now {
-  background-color: transparent;
-  color: #ffffff;
-  border: 2px solid #ff6d00;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
 }
 
 .btn.buy-now:hover {
-  background-color: #ff6d00;
-  color: white;
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
+
 
 .btn:disabled {
   cursor: not-allowed;
@@ -328,18 +369,18 @@ html, body, #root {
   border-collapse: collapse;
   margin-bottom: 36px;
   font-size: 1rem;
-  color: #ffffff;
+  color: var(--color-text-light);
 }
 
 .product-info-extra td {
   padding: 10px 14px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-text-light);
   vertical-align: top;
 }
 
 .product-info-extra td:first-child {
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-light);
   width: 150px;
 }
 
@@ -350,9 +391,9 @@ html, body, #root {
 }
 
 .product-description {
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--color-text-light);
   padding-top: 24px;
-  color: #ffffff;
+  color: var(--color-text-light);
   font-weight: 700px;
 }
 
@@ -360,13 +401,13 @@ html, body, #root {
   font-weight: 700;
   margin-bottom: 12px;
   font-size: 1.3rem;
-  color: #ffffff;
+  color: var(--color-text-light);
 }
 
 .product-description p {
   font-size: 1rem;
   line-height: 1.6;
-  color: #ffffff;
+  color: var(--color-text-light);
 }
 
 /* Loading and error */
@@ -410,6 +451,7 @@ html, body, #root {
     width: 100%;
     height: auto;
     max-height: 450px;
+    position: relative;
   }
 
   .product-details {

@@ -15,7 +15,9 @@ import heartIcon from './assets/icons/heart.png';
 function Header() {
   const { cartItems } = useCart();
   const { user, logout } = useAuth();
-  const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalCount = Array.isArray(cartItems)
+  ? cartItems.reduce((sum, item) => sum + item.quantity, 0)
+  : 0;
 
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -26,10 +28,28 @@ function Header() {
   const profileRef = useRef(null);
   const handleLogout = async () => {
     if (user?.id) {
-      await fetch(`http://localhost:5000/api/cart/clear/${user.id}`, { method: 'DELETE' });
+      const token = localStorage.getItem('token');
+  
+      // Получаем корзину из localStorage или состояния, например:
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+      try {
+        await fetch(`http://localhost:5000/api/cart/save/${user.id}`, { // Предполагаемый endpoint для сохранения
+          method: 'POST', // Или PUT, зависит от API
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cartItems: cart }),
+        });
+      } catch (err) {
+        console.error('Ошибка при сохранении корзины перед выходом:', err);
+      }
     }
+  
     logout();
   };
+  
   
   // Поиск продуктов
   useEffect(() => {
