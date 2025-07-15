@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../components/CartContext';
 import './ProductPage.css';
 import HomeParticles from '../components/HomeParticles';
@@ -12,6 +12,7 @@ function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate(); 
 
   const { addToCart } = useCart();
 
@@ -43,6 +44,11 @@ function ProductPage() {
     if (quantity > 1) setQuantity(q => q - 1);
   };
 
+  const handleBuyNow = () => {
+    addToCart({ ...product, quantity });
+    navigate('/checkout');
+  };
+  
   const handleAddToCart = () => {
     addToCart({ ...product, quantity });
   };
@@ -107,7 +113,7 @@ function ProductPage() {
           >
             Добавить в корзину
           </button>
-          <button className="btn buy-now">
+          <button className="btn buy-now" onClick={handleBuyNow}>
             Купить сейчас
           </button>
         </div>

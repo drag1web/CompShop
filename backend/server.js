@@ -280,6 +280,95 @@ app.delete('/api/favourites/:productId', authMiddleware, async (req, res) => {
   }
 });
 
+// Создать заказ
+app.post('/api/orders', authMiddleware, async (req, res) => {
+  const userId = req.user.id; // Из JWT
+  const { customerName, phone, address, items, total } = req.body;
+
+  if (!customerName || !phone || !address || !items || items.length === 0) {
+    return res.status(400).json({ message: 'Некорректные данные заказа' });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN'); // Начинаем транзакцию
+
+    // 1️⃣ Вставляем заказ
+    const orderResult = await client.query(
+      `INSERT INTO orders (user_id, customer_name, phone, address, total)
+       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+      [userId, customerName, phone, address, total]
+    );
+
+    const orderId = orderResult.rows[0].id;
+
+    // 2️⃣ Вставляем товары
+    const insertItemsQuery = `
+      INSERT INTO order_items (order_id, product_id, quantity, price)
+      VALUES ($1, $2, $3, $4)
+    `;
+
+    for (const item of items) {
+      await client.query(insertItemsQuery, [
+        orderId,
+        item.productId,
+        item.quantity,
+        item.price
+      ]);
+    }
+
+    // 3️⃣ Очищаем корзину пользователя
+    await client.query(
+      `DELETE FROM cart_items WHERE user_id = $1`,
+      [userId]
+    );
+
+    await client.query('COMMIT'); // Подтверждаем транзакцию
+
+    res.status(201).json({ message: 'Заказ успешно оформлен', orderId });
+  } catch (err) {
+    await client.query('ROLLBACK'); // Откат при ошибке
+    console.error('Ошибка при создании заказа:', err);
+    res.status(500).json({ message: 'Ошибка при создании заказа' });
+  } finally {
+    client.release();
+  }
+});
+
+// Получить заказы текущего пользователя
+app.get('/api/orders', authMiddleware, async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    // Получаем заказы пользователя
+    const ordersResult = await pool.query(
+      `SELECT id, customer_name, phone, address, total, created_at
+       FROM orders
+       WHERE user_id = $1
+       ORDER BY created_at DESC`,
+      [userId]
+    );
+
+    const orders = ordersResult.rows;
+
+    // Для каждого заказа можно получить товары
+    for (let order of orders) {
+      const itemsResult = await pool.query(
+        `SELECT product_id, quantity, price
+         FROM order_items
+         WHERE order_id = $1`,
+        [order.id]
+      );
+      order.items = itemsResult.rows;
+    }
+
+    res.json(orders);
+  } catch (err) {
+    console.error('Ошибка при получении заказов:', err);
+    res.status(500).json({ message: 'Ошибка сервера при получении заказов' });
+  }
+});
+
 
 app.use('/api/auth', authRoutes);
 

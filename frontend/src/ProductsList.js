@@ -63,50 +63,69 @@ function ProductsList() {
   if (loading) return <div className="loader1">Загрузка товаров...</div>;
   if (products.length === 0) return <div className="no-products1">Товары не найдены.</div>;
 
-  const favouriteProducts = products.filter(product =>
-    favourites.some(fav => fav.id === product.id)
-  );
-
   const isFavourite = (productId) => favourites.some(fav => fav.id === productId);
 
-  const toggleFavourite = (e, product) => {
-  e.preventDefault();
-  e.stopPropagation();
+  const loadFavourites = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setFavourites([]);
+      return;
+    }
+    try {
+      const favRes = await fetch('http://localhost:5000/api/favourites', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!favRes.ok) throw new Error('Ошибка загрузки избранного');
+      const favData = await favRes.json();
 
-  // Проверяем, есть ли товар в избранном
-  const isAlreadyFavourite = isFavourite(product.id);
+      if (favData.length === 0) {
+        setFavourites([]);
+        return;
+      }
 
-  // Если товар в избранном
-  if (isAlreadyFavourite) {
-    // Удаляем товар из избранного
-    const updatedFavourites = favourites.filter(fav => fav.id !== product.id);
-    setFavourites(updatedFavourites); // Обновляем контекст с новыми избранными товарами
+      // Можно либо хранить избранных как продукты, либо просто ids
+      // Здесь пример, если сервер возвращает полные данные продуктов:
+      setFavourites(favData);
+    } catch (error) {
+      console.error(error);
+      setFavourites([]);
+    }
+  };
 
-    // Отправляем запрос на сервер для удаления
-    fetch(`http://localhost:5000/api/favourites/${product.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-    }).catch(console.error);
-  } else {
-    // Добавляем товар в избранное
-    const updatedFavourites = [...favourites, product];
-    setFavourites(updatedFavourites); // Обновляем контекст с новыми избранными товарами
+  const toggleFavourite = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    // Отправляем запрос на сервер для добавления
-    fetch('http://localhost:5000/api/favourites', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId: product.id }),
-    }).catch(console.error);
-  }
-};
+    const token = localStorage.getItem('token');
+    if (!token) return;
 
-  
+    const isAlreadyFavourite = isFavourite(product.id);
+
+    try {
+      if (isAlreadyFavourite) {
+        const response = await fetch(`http://localhost:5000/api/favourites/${product.id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) throw new Error('Ошибка удаления из избранного');
+      } else {
+        const response = await fetch('http://localhost:5000/api/favourites', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ productId: product.id }),
+        });
+        if (!response.ok) throw new Error('Ошибка добавления в избранное');
+      }
+
+      await loadFavourites(); // Обновляем стейт из API после успешного запроса
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <div className="products-container1">
@@ -146,25 +165,28 @@ function ProductsList() {
             {products
               .filter(p => p.category === cat)
               .map(product => (
-                <Link
-                  to={`/product/${product.id}`}
-                  key={product.id}
-                  className="product-card1"
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="product-image1"
-                  />
-                  <h2>{product.name}</h2>
-                  <p className="description1">{product.description}</p>
-                  <p className="price1">{product.price.toLocaleString()} ₽</p>
+                <div key={product.id} className="product-card1">
 
-                  {/* ✅ Кнопка избранного с иконками */}
+                  {/* Сама карточка без кнопки - это ссылка */}
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="product-info"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <img src={product.image} alt={product.name} className="product-image1" />
+                    <h2>{product.name}</h2>
+                    <p className="description1">{product.description}</p>
+                    <p className="price1">{product.price.toLocaleString()} ₽</p>
+                  </Link>
+
+                  {/* Кнопка избранного вне ссылки */}
                   <button
                     className={`btn-favourite ${isFavourite(product.id) ? 'active' : ''}`}
-                    onClick={e => toggleFavourite(e, product)}
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleFavourite(e, product);
+                    }}
                     aria-label={isFavourite(product.id) ? 'Удалить из избранного' : 'Добавить в избранное'}
                     title={isFavourite(product.id) ? 'Удалить из избранного' : 'Добавить в избранное'}
                     type="button"
@@ -176,8 +198,9 @@ function ProductsList() {
                     />
                   </button>
 
-                </Link>
+                </div>
               ))}
+
           </div>
         </section>
       ))}

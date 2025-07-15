@@ -19,6 +19,12 @@ export function CartProvider({ children }) {
       })
         .then(async (res) => {
           if (!res.ok) {
+            if (res.status === 401) {
+              console.warn('❌ Токен недействителен, выполняем разлогин');
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              setCartItems([]); // чистим корзину
+            }
             const errData = await res.json();
             throw new Error(errData.message || 'Ошибка загрузки корзины');
           }
@@ -37,7 +43,53 @@ export function CartProvider({ children }) {
       const localCart = JSON.parse(localStorage.getItem('cart')) || [];
       setCartItems(localCart);
     }
-  }, [user]);  // <--- вот добавляем зависимость от user
+  }, [user]);
+
+  // Функция для обновления количества товара в корзине
+  const updateCartItemQuantity = async (productId, quantity) => {
+    // Обновляем локально
+    setCartItems(prevCart => {
+      const updatedCart = prevCart.map(item =>
+        item.product_id === productId ? { ...item, quantity } : item
+      );
+      localStorage.setItem('cart', JSON.stringify(updatedCart)); // синхронизируем с localStorage
+      return updatedCart;
+    });
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.warn('Нет токена для обновления количества товара');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/api/cart/update`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId, quantity }),
+      });
+
+      if (response.ok) {
+        const updatedCartFromServer = await response.json();
+        console.log('Корзина после обновления на сервере:', updatedCartFromServer);
+        // ✅ Перезаписываем локальный стейт только если сервер вернул нормальные данные
+        if (Array.isArray(updatedCartFromServer)) {
+          setCartItems(updatedCartFromServer); // новая ссылка на массив
+          localStorage.setItem('cart', JSON.stringify(updatedCartFromServer));
+        } else {
+          console.warn('Сервер вернул пустую корзину — оставляем локальную');
+        }
+      } else {
+        const errorData = await response.json();
+        console.error('Ошибка при обновлении количества товара:', errorData);
+      }
+    } catch (error) {
+      console.error('Ошибка сети при обновлении количества товара', error);
+    }
+  };
 
   const addToCart = async (product, quantity = 1) => {
     const productId = product.id || product.product_id || product._id;
@@ -102,7 +154,6 @@ export function CartProvider({ children }) {
     }
   };
 
-
   const removeFromCart = async (productId) => {
     // Обновляем локально сразу
     setCartItems(prevItems => {
@@ -162,11 +213,10 @@ export function CartProvider({ children }) {
     } catch (err) {
       console.error('Ошибка сети при очистке корзины', err);
     }
-  }
-
+  }  
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart, clearCart, updateCartItemQuantity }}>
       {children}
     </CartContext.Provider>
   );

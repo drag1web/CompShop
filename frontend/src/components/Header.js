@@ -157,7 +157,7 @@ function Header() {
   <Link to="/about">
     <img src={aboutIcon} alt="Мы" className="nav-icon" /> Мы
   </Link>
-  <Link to="/contacts">
+  <Link to="/orders">
     <img src={contactsIcon} alt="Заказы" className="nav-icon" /> Заказы
   </Link>
   <Link to="/cart" className="nav-link cart-button">
@@ -180,9 +180,9 @@ function Header() {
         <Link to="/orders" className="dropdown-item">
           📦 Заказы
         </Link>
-        <Link to="/support" className="dropdown-item">
-          📦 Поддержка
-        </Link>
+        <Link to="/support" className="dropdown-item"> 
+        <img src={loginIcon} alt='Поддержка' className='nav-icon' /> Поддержка
+         </Link>
         <Link to="/favourites" className="dropdown-item">
         <img src={heartIcon} alt="Войти" className="nav-icon" /> Избранное
         </Link>

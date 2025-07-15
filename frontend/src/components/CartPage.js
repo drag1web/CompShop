@@ -1,39 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from './CartContext';
+import { useNavigate } from 'react-router-dom';
 import HomeParticles from './HomeParticles';
 import ParticlesBackground from './ParticlesBackground';
 import './CartPage.css';
 
 function CartPage() {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+  const { cartItems, removeFromCart, clearCart, updateCartItemQuantity } = useCart();
+  const navigate = useNavigate();
+  const [savedCartItems, setSavedCartItems] = useState([]);
 
-  // Считаем итоговую сумму
+  // Загрузка корзины из localStorage при монтировании компонента
+  useEffect(() => {
+    const savedItems = JSON.parse(localStorage.getItem('cart')) || [];
+    setSavedCartItems(savedItems);
+  }, []);
+
+  // Сохранение корзины в localStorage
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(savedCartItems));
+  }, [savedCartItems]);
+
   const safeCartItems = Array.isArray(cartItems) ? cartItems : [];
+
+  // Общая стоимость корзины
   const totalPrice = safeCartItems.reduce(
-    (acc, item) => acc + (item.price ? item.price * item.quantity : 0), 0
+    (acc, item) => acc + (item.price ? item.price * item.quantity : 0), 
+    0
   );
 
-  // Оформление заказа
   const handleCheckout = () => {
-    alert("🎉 Спасибо за заказ! Оформляем...");
+    navigate('/checkout');
   };
 
-  // Анимация удаления
   const handleRemove = (id) => {
     if (!id) {
       console.error("Ошибка: Невалидный product_id", id);
       return;
     }
-
     const card = document.querySelector(`#product-${id}`);
     if (card) {
       card.classList.add('removing');
       setTimeout(() => {
         removeFromCart(id);
-      }, 300); // дождаться анимации
+      }, 300);
     } else {
-      // fallback если не нашлось
       removeFromCart(id);
+    }
+  };
+
+  // Функция для изменения количества товара
+  const handleQuantityChange = (id, operation) => {
+    const product = safeCartItems.find(item => item.product_id === id);
+    if (!product) return;
+
+    const newQuantity = operation === 'increase' ? product.quantity + 1 : product.quantity - 1;
+    if (newQuantity >= 1) {
+      updateCartItemQuantity(id, newQuantity);
     }
   };
 
@@ -44,13 +67,14 @@ function CartPage() {
       <div className="home-container-cart">
         <h1>Корзина</h1>
 
+        {/* Если корзина пуста, показываем сообщение */}
         {safeCartItems.length === 0 ? (
           <p>Корзина пуста</p>
         ) : (
           <>
             <div className="products-grid-cart">
+              {/* Отображаем все товары в корзине */}
               {safeCartItems.map(item => {
-                // Проверяем наличие цены и корректность данных
                 const validPrice = item.price && !isNaN(item.price) ? item.price : 0;
                 return (
                   <div
@@ -63,7 +87,27 @@ function CartPage() {
                     <p className="price-cart">
                       {validPrice > 0 ? validPrice.toLocaleString('ru-RU') : 'Цена не доступна'} ₽
                     </p>
-                    <p>Количество: {item.quantity}</p>
+
+                    {/* Увеличение / уменьшение количества */}
+                    <div className="quantity-controls">
+                      <button
+                        className="quantity-btn"
+                        onClick={() => handleQuantityChange(item.product_id, 'decrease')}
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        className="quantity-btn"
+                        onClick={() => handleQuantityChange(item.product_id, 'increase')}
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    {/* Сообщение, если количество товара ограничено */}
+                    {item.stock <= 0 && <p className="out-of-stock">Товар закончился</p>}
+                    
                     <button
                       className="btn btn-danger-cart"
                       onClick={() => handleRemove(item.product_id)}
@@ -75,6 +119,7 @@ function CartPage() {
               })}
             </div>
 
+            {/* Кнопка для очистки корзины */}
             <button
               onClick={clearCart}
               className="btn btn-primary-cart"
@@ -83,6 +128,7 @@ function CartPage() {
               Очистить корзину
             </button>
 
+            {/* Сумма корзины и кнопка оформления заказа */}
             <div className="cart-summary">
               <p>
                 Итого:{' '}

@@ -21,6 +21,10 @@ import HomeParticles from './components/HomeParticles';
 
 import ProductsList from './ProductsList';
 import Favourites from './components/Favourites';
+import SupportPage from './components/SupportPage';
+import CheckoutPage from './components/CheckoutPage';
+
+import OrdersPage from './components/OrdersPage';
 
 function AppContent() {
   const location = useLocation();
@@ -46,6 +50,9 @@ function AppContent() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductsList />} />
           <Route path="/favourites" element={<Favourites />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
       </div>
       <SocialMenu/>

@@ -36,17 +36,18 @@ export function AuthProvider({ children }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-
+  
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message || 'Неверный email или пароль');
     }
-
+  
     const data = await res.json();
-    setUser(data.user);
-    localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setUser(data.user);
   };
+  
 
   const logout = () => {
     setUser(null);

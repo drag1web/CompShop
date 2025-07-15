@@ -1,0 +1,425 @@
+:root {
+    --primary-color: #e74c3c;
+    --secondary-color: #f39c12;
+    --shadow-color: rgba(231, 76, 60, 0.6);
+    --text-color: white;
+    --btn-bg: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+  }
+  
+  .checkout-page {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: white;
+  }
+  
+  
+  h1, h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    user-select: none;
+    
+    /* Сделаем тень более чёткой и яркой */
+    text-shadow:
+      0 0 6px rgba(0, 0, 0, 0.75),
+      0 2px 8px rgba(0, 0, 0, 0.7);
+    
+    /* Можно усилить цвет текста */
+    color: #fff;
+  }
+  
+  
+  
+  .cart-summary ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease;
+  }
+  
+  .cart-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .total {
+    font-size: 1.3em;
+    text-align: right;
+    margin-top: 15px;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+  
+  .checkout-form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .checkout-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 1.1rem;
+    user-select: none;
+  }
+  
+  .checkout-form input,
+  .checkout-form textarea {
+    padding: 12px 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-color);
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
+  }
+  
+  .checkout-form input::placeholder,
+  .checkout-form textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+  }
+  
+  .checkout-form input:focus,
+  .checkout-form textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px var(--secondary-color);
+  }
+  
+  .checkout-form .btn {
+    align-self: center;
+    width: auto;
+    padding: 10px 24px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: var(--btn-bg);
+    color: var(--text-color);
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .checkout-form .btn:hover {
+    background: linear-gradient(90deg, #e67e22, #c0392b);
+    box-shadow: 0 6px 20px rgba(230, 126, 34, 0.7);
+    transform: translateY(-2px);
+    color: #fff;
+  }
+  
+  .checkout-form .btn::after {
+    content: none; /* Убираем всплеск */
+  }
+  
+  .checkout-success {
+    text-align: center;
+    font-size: 1.3em;
+    color: #2ecc71;
+    margin-top: 30px;
+    font-weight: 700;
+    user-select: none;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  }
+  
+  .checkout-empty {
+    text-align: center;
+    font-size: 1.2em;
+    color: rgba(255,255,255,0.7);
+    margin-top: 30px;
+    user-select: none;
+  }
+  
+  /* Анимация плавного появления */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Адаптив */
+  @media screen and (max-width: 600px) {
+    .checkout-page {
+      padding: 20px 15px;
+    }
+    .checkout-form .btn {
+      width: 100%;
+    }
+    .cart-item {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+  
+  .payment-method {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Отступ между радио-кнопками */
+    margin-top: 16px;
+  }
+  
+  .payment-method label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 36px; /* место под кастомный круг */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    user-select: none;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+    line-height: 1.3;
+    min-height: 28px;
+  }
+  
+  .payment-method label:hover,
+  .payment-method label:focus-within {
+    color: var(--secondary-color);
+  }
+  
+  /* Скрываем стандартный input */
+  .payment-method label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    margin: 0;
+  }
+  
+  /* Кастомный круг */
+  .payment-method label input[type="radio"] + span::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--text-color);
+    border-radius: 50%;
+    background: transparent;
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      box-shadow 0.3s ease;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Внутренний кружок */
+  .payment-method label input[type="radio"] + span::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 10px;
+    height: 10px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+  
+  /* Активный кружок */
+  .payment-method label input[type="radio"]:checked + span::before {
+    border-color: var(--secondary-color);
+    background-color: rgba(0, 123, 255, 0.15);
+    box-shadow: 0 0 6px var(--secondary-color);
+  }
+  
+  .payment-method label input[type="radio"]:checked + span::after {
+    transform: translateY(-50%) scale(1);
+  }
+  
+  /* Фокус для клавиатурной навигации */
+  .payment-method label input[type="radio"]:focus-visible + span::before {
+    outline: 3px solid rgba(0, 123, 255, 0.4);
+  }
+  
+  /* --- Дополнительные блоки --- */
+  .payment-details {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 15px;
+    animation: fadeInUp 0.4s ease forwards;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+  
+  .payment-details label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 30px; /* место под кружок */
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    user-select: none;
+    color: var(--text-color);
+  }
+
+  
+.payment-details label input[type="radio"] + span::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--text-color);
+    border-radius: 50%;
+    background: transparent;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .payment-details label input[type="radio"] + span::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 8px;
+    height: 8px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+
+  .payment-details label input[type="radio"]:checked + span::before {
+    border-color: var(--secondary-color);
+    background-color: rgba(0, 123, 255, 0.15);
+  }
+  
+  .payment-details label input[type="radio"]:checked + span::after {
+    transform: translateY(-50%) scale(1);
+  }
+  
+  
+  .payment-details input {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .payment-details input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 8px var(--secondary-color);
+  }
+  
+  /* Кнопки платёжных сервисов */
+  .payment-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  .payment-services button {
+    flex: 1 1 calc(50% - 10px);
+    padding: 10px;
+    background: var(--btn-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  
+  .payment-services button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+  }
+
+  .delivery-calculator p {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--secondary-color);
+    text-shadow:
+      0 0 6px var(--shadow-color),
+      0 2px 8px rgba(0,0,0,0.5);
+    user-select: none;
+    margin: 20px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUpDistance 0.6s forwards;
+  }
+  
+  .delivery-calculator p.error {
+    color: #e74c3c;
+    font-weight: 600;
+    text-shadow: 0 0 8px #e74c3c;
+    animation: fadeInUpDistance 0.6s forwards;
+  }
+  
+  @keyframes fadeInUpDistance {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Новый стиль для стоимости доставки */
+  .delivery-cost-highlight {
+    display: inline-block;
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--primary-color);
+    /* Добавим чёткий контур */
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.7);
+    /* Лёгкая тень для контраста, без свечения */
+    text-shadow:
+      1px 1px 2px rgba(0, 0, 0, 0.8);
+    user-select: none;
+    /* Плавное появление */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUpDistance 0.6s forwards;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .delivery-cost-highlight:hover {
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+  }
+  
+  
+  
