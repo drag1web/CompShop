@@ -1,0 +1,17 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main {
+  flex: 1; /* заполняет всё доступное пространство между header и footer */
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}

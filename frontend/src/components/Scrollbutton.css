@@ -1,0 +1,116 @@
+.scroll-button {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #f39c12, #e74c3c);
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 36px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(231, 76, 60, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    overflow: visible;
+    z-index: 1000;
+    outline: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: breathe 3s ease-in-out infinite;
+    will-change: transform, opacity;
+    position: fixed;
+  }
+  
+  /* Анимация появления */
+  .fade-in {
+    animation: fadeInScale 0.4s forwards;
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  /* Анимация исчезновения */
+  .fade-out {
+    animation: fadeOutScale 0.4s forwards;
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  
+  /* Плавное появление + увеличение */
+  @keyframes fadeInScale {
+    0% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Плавное исчезновение + уменьшение */
+  @keyframes fadeOutScale {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+  }
+  
+  /* "Дыхание" — пульсация размера и свечения */
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow:
+        0 0 10px rgba(231, 76, 60, 0.6),
+        0 0 20px rgba(231, 76, 60, 0.4),
+        0 0 30px rgba(231, 76, 60, 0.2);
+    }
+    50% {
+      transform: scale(1.07);
+      box-shadow:
+        0 0 20px rgba(231, 76, 60, 0.9),
+        0 0 40px rgba(231, 76, 60, 0.6),
+        0 0 60px rgba(231, 76, 60, 0.3);
+    }
+  }
+  
+  .scroll-button:hover {
+    animation-play-state: paused;
+    transform: scale(1.15);
+    box-shadow:
+      0 0 30px rgba(231, 76, 60, 1),
+      0 0 60px rgba(231, 76, 60, 0.8),
+      0 0 90px rgba(231, 76, 60, 0.6);
+  }
+  
+  /* Вспомогательный элемент свечения внутри кнопки */
+  .scroll-button .glow {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(231,76,60,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(10px);
+    animation: glowPulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+  
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  

@@ -1,0 +1,365 @@
+:root {
+  --color-primary: #FFA500;
+  --color-accent: #FFD700;
+  --color-bg: #fffaf0;
+  --color-bg-glass: rgba(255, 255, 255, 0.7);
+  --color-text: #333;
+  --color-muted: #aaa;
+  --transition: 0.4s ease;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --radius: 12px;
+  --blur: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #fff8e1, #fff3cd);
+  color: var(--color-text);
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  animation: fadeInBody 1s ease;
+}
+
+@keyframes fadeInBody {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profilePage {
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.profileContainer {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+  animation: popIn 0.6s ease-in-out;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sidebar {
+  width: 280px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: slideInLeft 0.6s ease-in-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.tabsList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tabItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background var(--transition), transform var(--transition);
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.tabItem::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  left: 0;
+  top: 0;
+  background: #fff;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.tabItem:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateX(6px);
+}
+
+.tabItem.active {
+  background-color: #fff;
+  color: var(--color-primary);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.05);
+}
+
+.tabItem.active::before {
+  opacity: 1;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  animation: slideFade 0.6s ease;
+  transition: all 0.5s ease;
+  background: linear-gradient(to right, #fffdf4, #fff8e1);
+  border-radius: var(--radius);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  color: var(--color-primary);
+  font-weight: 700;
+  animation: fadeIn 1s ease;
+}
+
+.btn {
+  padding: 12px 20px;
+  font-size: 15px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.2);
+  transition: left 0.4s ease;
+  z-index: 0;
+}
+
+.btn:hover::after {
+  left: 0;
+}
+
+.btnSave {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btnSave:hover {
+  background-color: #e69500;
+  transform: scale(1.05);
+}
+
+.btnEdit {
+  background-color: white;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btnEdit:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btnDelete {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.btnDelete:hover {
+  background-color: #c62828;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+  animation: fadeIn 0.8s ease;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup span {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.formInputEditable,
+.formInputReadonly {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: var(--radius);
+  border: 1px solid #ddd;
+  transition: all var(--transition);
+}
+
+.formInputEditable:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.3);
+}
+
+.formInputReadonly {
+  background: #f3f3f3;
+  color: #888;
+  border-style: dashed;
+}
+
+.addressList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.addressItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.addressInput {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  transition: border-color var(--transition);
+}
+
+.addressInput:focus {
+  border-color: var(--color-primary);
+}
+
+.addAddressBlock {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.ordersTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.ordersTable th,
+.ordersTable td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.ordersTable th {
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+.noData {
+  margin-top: 20px;
+  color: var(--color-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+.saveSuccessMessage {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: #e6ffe6;
+  color: #2e7d32;
+  border: 1px solid #b2fab4;
+  font-weight: 500;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.6s ease-in-out;
+}

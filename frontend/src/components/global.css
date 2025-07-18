@@ -1,0 +1,30 @@
+/* Метатег viewport вставляешь в HTML, но в глобальном CSS задаёшь базовые настройки */
+
+/* Базовые размеры и контейнер */
+body {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Основные контейнеры */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Медиа-запросы для основных точек перелома */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+}

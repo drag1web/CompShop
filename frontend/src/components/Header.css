@@ -1,0 +1,489 @@
+.header {
+  background-color: rgba(28, 28, 28, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f0c040;
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 20;
+  overflow: visible;
+}
+
+.container {
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+/* Основной flex-контейнер шапки */
+.header-flex {
+  max-width: 1600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* Запрет переноса */
+  gap: 15px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Логотип */
+.logo {
+  font-weight: bold;
+  font-size: 24px;
+  text-decoration: none;
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Адрес с анимацией */
+.address {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #f0c040cc;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation-fill-mode: forwards;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.address.show {
+  animation-name: slideInAddress;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.address.hide {
+  animation-name: slideOutAddress;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.address-icon {
+  margin-right: 6px;
+}
+
+/* Навигация и кнопки */
+.nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap; /* не переносить */
+  align-items: center;
+}
+
+.nav a,
+.nav .nav-link {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.6);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease,
+    color 0.3s ease;
+  user-select: none;
+  white-space: nowrap; /* Не переносить текст */
+}
+
+.nav a::after,
+.nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 40%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.nav a:hover::after,
+.nav .nav-link:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.nav a:hover,
+.nav .nav-link:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(90deg, #e67e22, #c0392b);
+  box-shadow: 0 10px 30px rgba(230, 126, 34, 0.8);
+  color: #fff;
+}
+
+/* Контейнер поиска */
+.search-container {
+  margin-right: 20px;
+  flex-shrink: 1; /* позволяет ужиматься */
+  flex-grow: 1; /* занимает всё доступное пространство */
+  max-width: 350px; /* ограничение макс. ширины */
+  min-width: 150px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #ccc;
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.6);
+}
+
+/* Кнопка корзины */
+.cart-button {
+  position: relative;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+  z-index: 1;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 10;
+  background: linear-gradient(135deg, #ff4b2b, #ff416c);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px;
+  border-radius: 50%;
+  min-width: 22px;
+  height: 22px;
+  line-height: 14px;
+  text-align: center;
+  box-sizing: border-box;
+  pointer-events: none;
+  user-select: none;
+  box-shadow:
+    0 0 6px rgba(255, 75, 43, 0.7),
+    0 2px 6px rgba(255, 65, 108, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+}
+
+.cart-button:hover .cart-count {
+  transform: scale(1.2);
+  box-shadow:
+    0 0 12px rgba(255, 75, 43, 0.9),
+    0 4px 12px rgba(255, 65, 108, 0.8);
+}
+
+@keyframes splash {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 rgba(255, 75, 43, 0),
+      0 0 0 rgba(255, 75, 43, 0),
+      0 0 0 rgba(255, 75, 43, 0);
+  }
+  30% {
+    transform: scale(1.3);
+    box-shadow:
+      0 -10px 6px rgba(255, 75, 43, 0.7),
+      8px 8px 6px rgba(255, 65, 108, 0.6),
+      -8px 6px 6px rgba(255, 90, 90, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 rgba(255, 75, 43, 0),
+      0 0 0 rgba(255, 75, 43, 0),
+      0 0 0 rgba(255, 75, 43, 0);
+  }
+}
+
+.cart-count.splash {
+  animation: splash 600ms ease forwards;
+}
+
+/* Анимации адреса */
+@keyframes slideInAddress {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutAddress {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* Выпадающее меню поиска */
+/* Выпадающее меню поиска */
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(28, 28, 28, 0.9);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 30;
+  padding: 0;
+  margin-top: 8px;
+  list-style: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  animation: fadeInDropdown 0.3s ease-out;
+}
+
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-dropdown li {
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+
+.search-dropdown li:hover,
+.search-dropdown li.active {
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  color: white;
+}
+
+.search-dropdown li a {
+  color: white;
+  text-decoration: none; /* убираем подчёркивание */
+}
+
+.search-dropdown li a:hover,
+.search-dropdown li a:focus {
+  color: white;
+}
+
+
+
+/* Вся выпадашка теперь тёмная */
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  background: #1f2937; /* Тёмно-серый фон */
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s ease;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.profile-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Каждый пункт меню */
+.dropdown-item {
+  display: block;
+  padding: 10px 16px;
+  color: #f9fafb; /* Светлый текст */
+  font-size: 14px;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Наведение */
+.dropdown-item:hover {
+  background-color: #374151; /* Чуть светлее фон при ховере */
+  color: #fbbf24; /* Золотистый текст при наведении */
+  text-decoration: none;
+}
+
+/* Чтобы кнопка logout выглядела как пункт меню */
+.dropdown-item.logout-btn {
+  color: #f87171; /* Красный текст для "Выйти" */
+}
+
+.dropdown-item.logout-btn:hover {
+  background-color: #7f1d1d; /* Тёмно-красный фон при наведении */
+  color: #fef2f2; /* Светлый текст */
+}
+/* Профильное меню */
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+
+.profile-button:hover {
+  color: #facc15;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #1f2937;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s ease;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.profile-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 16px;
+  color: #f9fafb;
+  font-size: 14px;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #374151;
+  color: #facc15;
+}
+
+.logout-btn {
+  color: #f87171;
+}
+
+.logout-btn:hover {
+  background-color: #7f1d1d;
+  color: #fef2f2;
+}
+
+/* Стили для элементов в выпадающем меню */
+.profile-dropdown .dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  color: #f9fafb; /* отдельный цвет для текста */
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Наведение */
+.profile-dropdown .dropdown-item:hover {
+  background-color: #374151;
+  color: #facc15;
+}
+
+/* Красный стиль для "Выйти" */
+.profile-dropdown .logout-btn {
+  color: #f87171;
+}
+
+.profile-dropdown .logout-btn:hover {
+  background-color: #7f1d1d;
+  color: #fef2f2;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}

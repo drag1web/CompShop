@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  :root {
+    --color-primary: #ff6d00;
+    --color-primary-hover: #e65c00;
+    --color-text-main: #222222;
+    --color-text-light: #ffffff;
+    --color-bg-light: #ffffff;
+    --color-shadow: rgba(0,0,0,0.07);
+    --color-stock-in: #2d7a2d;
+    --color-stock-out: #a33632;
+    --font-family-main: 'Inter', sans-serif;
+    --border-radius: 10px;
+  }
+  
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #222;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(255 255 255 / 0.15), transparent 25%),
+      radial-gradient(circle at 80% 50%, rgba(255 255 255 / 0.1), transparent 30%),
+      radial-gradient(circle at 50% 80%, rgba(255 255 255 / 0.05), transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+    animation: subtleShift 30s ease-in-out infinite;
+  }
+  
+  @keyframes subtleShift {
+    0%, 100% {
+      background-position:
+        10% 20%,
+        80% 50%,
+        50% 80%;
+    }
+    50% {
+      background-position:
+        12% 22%,
+        78% 52%,
+        48% 82%;
+    }
+  }
+  
+  
+.product-page-wrapper {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* Левая колонка — другие товары */
+.other-products {
+  flex: 0 0 220px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.other-products h2 {
+  font-weight: 700;
+  margin-bottom: 18px;
+  font-size: 1.2rem;
+  color: #334;
+}
+
+.other-products ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  max-height: 550px;
+}
+
+.other-products li {
+  margin-bottom: 14px;
+}
+
+.other-product-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #222;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.other-product-link:hover {
+  background-color: #f0f4ff;
+}
+
+.other-product-link img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  user-select: none;
+}
+
+.other-product-link span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Основной блок */
+.product-page-modern {
+  display: flex;
+  gap: 40px;
+  flex: 1 1 auto;
+}
+
+.product-images {
+  flex: 0 0 450px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  background: #fff;
+  height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.product-images::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+  z-index: 1;
+}
+
+.product-images::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  z-index: 1;
+}
+
+.product-images img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  user-select: none;
+  transform-origin: center center;
+  animation: fadeScaleIn 0.8s ease forwards;
+  opacity: 0;
+  z-index: 2;
+}
+
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.product-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  line-height: 1.2;
+  color: var(--color-text-light);
+}
+
+.product-rating-stock {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 22px;
+  font-size: 1rem;
+  color: var(--color-text-light);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.star {
+  font-size: 20px;
+  color: #ccc;
+  user-select: none;
+}
+
+.star.filled {
+  color: #ffb400;
+}
+
+.rating-value {
+  font-weight: 700;
+  color: var(--color-text-light);
+}
+
+.rating-max {
+  font-weight: 700;
+  color: var(--color-text-light);
+}
+
+.stock {
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 20px;
+  user-select: none;
+  min-width: 140px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.stock.in-stock {
+  background-color: #e2f4e3;
+  color: #2d7a2d;
+  border: 1.5px solid #2d7a2d;
+}
+
+.stock.out-stock {
+  background-color: #fce8e6;
+  color: #a33632;
+  border: 1.5px solid #a33632;
+}
+
+.price-block {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #d32f2f;
+  margin-bottom: 30px;
+  user-select: none;
+}
+
+.quantity-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  max-width: 160px;
+}
+
+.quantity-select button {
+  background: #efefef;
+  border: none;
+  font-size: 22px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quantity-select button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.quantity-select button:hover:not(:disabled) {
+  background-color: #d4d4d4;
+}
+
+.quantity-select input {
+  width: 56px;
+  text-align: center;
+  font-size: 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  height: 36px;
+  outline: none;
+  user-select: none;
+}
+
+.quantity-select input:focus {
+  border-color: #888;
+}
+
+.actions {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  flex: 1 1 160px;
+  padding: 14px 0;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+/* Для кнопки Добавить в корзину */
+.btn.add-to-cart {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
+}
+
+.btn.add-to-cart:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Для кнопки Купить сейчас */
+.btn.buy-now {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
+}
+
+.btn.buy-now:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.product-info-extra table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 36px;
+  font-size: 1rem;
+  color: var(--color-text-light);
+}
+
+.product-info-extra td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-text-light);
+  vertical-align: top;
+}
+
+.product-info-extra td:first-child {
+  font-weight: 600;
+  color: var(--color-text-light);
+  width: 150px;
+}
+
+.product-info-extra ul {
+  padding-left: 18px;
+  margin: 0;
+  list-style-type: disc;
+}
+
+.product-description {
+  border-top: 1px solid var(--color-text-light);
+  padding-top: 24px;
+  color: var(--color-text-light);
+  font-weight: 700px;
+}
+
+.product-description h3 {
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+  color: var(--color-text-light);
+}
+
+.product-description p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+}
+
+/* Loading and error */
+.loading, .error {
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 80px 20px;
+  color: #666;
+}
+
+/* Адаптив */
+@media (max-width: 1100px) {
+  .product-page-wrapper {
+    flex-direction: column;
+    max-width: 90vw;
+  }
+
+  .other-products {
+    flex: none;
+    max-height: 200px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 20px;
+  }
+
+  .other-products ul {
+    display: flex;
+    max-height: none;
+  }
+
+  .other-products li {
+    margin-right: 14px;
+    margin-bottom: 0;
+  }
+
+  .product-page-modern {
+    flex-direction: column;
+  }
+
+  .product-images {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    position: relative;
+  }
+
+  .product-details {
+    width: 100%;
+  }
+}

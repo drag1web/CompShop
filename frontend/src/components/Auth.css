@@ -1,0 +1,209 @@
+/* Цвета и переменные */
+:root {
+    --primary-color: #e74c3c;
+    --secondary-color: #f39c12;
+    --accent-color: #8e44ad;
+    --shadow-color: rgba(231, 76, 60, 0.6);
+    --text-color: white;
+    --btn-bg: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+  }
+  
+  /* Общий контейнер */
+  .auth-container {
+    position: relative;
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 50px 40px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    box-shadow: 0 20px 50px var(--shadow-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    z-index: 1;
+    overflow: hidden;
+    animation: fadeInSlide 1s ease forwards;
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  
+  /* Анимация появления */
+  @keyframes fadeInSlide {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .auth-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.1), transparent 70%);
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 1;
+    animation: gradientMove 6s linear infinite;
+  }
+  
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .auth-container > * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .auth-container h2 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1.2px;
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInUp 1s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .auth-error {
+    background: #dc3545;
+    color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
+    animation: pulseError 1.5s ease infinite alternate;
+  }
+  
+  @keyframes pulseError {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+  }
+  
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .auth-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #f0f0f0;
+    opacity: 0.9;
+  }
+  
+  .auth-form input {
+    padding: 14px 16px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .auth-form input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--secondary-color), 0 0 20px var(--secondary-color);
+    transform: scale(1.02);
+  }
+  
+  /* Кнопка */
+  .btn1 {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.15rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--btn-bg);
+    color: white;
+    box-shadow: 0 8px 20px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .btn1::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 40%);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.6s ease;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .btn1:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  .btn1:hover {
+    transform: translateY(-5px) scale(1.03);
+    background: linear-gradient(90deg, #e67e22, #c0392b);
+    box-shadow: 0 12px 30px rgba(230, 126, 34, 0.8);
+  }
+  
+  /* Ссылки под кнопкой */
+  .auth-container p {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  
+  .auth-container a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 500;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  
+  .auth-container a:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 5px var(--secondary-color);
+  }
+  
+  /* Адаптивность */
+  @media screen and (max-width: 600px) {
+    .auth-container {
+      padding: 35px 25px;
+      margin: 60px auto;
+    }
+  
+    .auth-container h2 {
+      font-size: 2.2rem;
+    }
+  
+    .btn1 {
+      font-size: 1rem;
+      padding: 12px;
+    }
+  }
+  

@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* === Адаптивные стили === */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* уменьшаем базовый размер шрифта на мобилках */
+  }
+
+  /* пример для контейнеров по всему сайту */
+  .container, .products-container1, .products-container-favourites {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* другие глобальные адаптивные стили можно добавить тут */
+}

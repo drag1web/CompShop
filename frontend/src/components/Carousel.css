@@ -1,0 +1,118 @@
+/* Контейнер для карусели */
+.carousel {
+  position: relative;
+  width: 800px; /* шире */
+  max-width: 95vw; /* адаптивно */
+  margin: 0 auto 40px;
+  border-radius: 14px;
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  background-color: #111; /* немного фона для глубины */
+  background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.7)); /* Добавление градиента для глубины */
+}
+
+/* Окно слайдера */
+.slider-window {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Лента слайдов */
+.slider-track {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Каждый слайд */
+.slide {
+  min-width: 100%;
+  height: 400px; /* выше */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 30px 30px 40px;
+  color: white;
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.45); /* чуть темнее */
+  box-sizing: border-box;
+  border-radius: 14px;
+  transition: transform 0.7s ease, background-color 0.3s ease; /* Плавное изменение фона */
+}
+
+/* Эффект при наведении на слайд */
+.slide:hover {
+  background-color: rgba(0, 0, 0, 0.55); /* Сделать слайд ярче */
+  transform: scale(1.05); /* Легкое увеличение */
+}
+
+/* Контент слайда */
+.slide-content {
+  background: rgba(0, 0, 0, 0.65);
+  padding: 20px 30px;
+  border-radius: 12px;
+  max-width: 75%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  transition: box-shadow 0.3s ease; /* Плавная анимация для тени */
+}
+
+.slide-content h3 {
+  margin: 0 0 10px;
+  font-size: 2rem; /* крупнее */
+  font-weight: 700;
+}
+
+.slide-content p {
+  margin: 0;
+  font-size: 1.3rem;
+  opacity: 0.95;
+  line-height: 1.3;
+}
+
+/* Добавление тени при наведении на контент слайда */
+.slide:hover .slide-content {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7); /* Добавление тени */
+}
+
+
+/* Адаптивность на мобильных устройствах */
+@media (max-width: 768px) {
+  .carousel {
+    width: 100%;
+    height: 300px;
+  }
+
+  .slider-track {
+    transition: transform 0.5s ease;
+  }
+
+  .slide {
+    height: 250px; /* Подгонка высоты на мобильных устройствах */
+    padding: 20px 15px 25px;
+  }
+
+  .slide-content h3 {
+    font-size: 1.5rem; /* Меньше заголовок */
+  }
+
+  .slide-content p {
+    font-size: 1.1rem;
+  }
+}
+
+/* Автоматическая прокрутка */
+@keyframes autoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

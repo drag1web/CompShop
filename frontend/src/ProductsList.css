@@ -1,0 +1,404 @@
+.products-container1 {
+  position: relative;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0a0907;
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(231, 76, 60, 0.3);
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Слой: переливающийся неоновый градиент */
+.products-container1::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle at 50% 50%, rgba(231, 76, 60, 0.2), transparent 60%),
+              radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.15), transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(52, 152, 219, 0.15), transparent 50%);
+  animation: neonFlow 20s linear infinite alternate;
+  filter: blur(100px);
+  z-index: -3;
+}
+
+/* Анимация для переливов */
+@keyframes neonFlow {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Слой: движущиеся световые потоки */
+.products-container1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  background-size: 200% 200%;
+  animation: moveStreams 15s linear infinite;
+  z-index: -2;
+}
+
+@keyframes moveStreams {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Слой: парящие мерцающие звезды */
+.stars {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 3px 3px;
+  animation: starTwinkle 5s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Пульсация блока */
+.products-container1:hover {
+  box-shadow: 0 12px 60px rgba(231, 76, 60, 0.5), 0 0 80px rgba(243, 156, 18, 0.2);
+  transition: all 0.5s ease;
+}
+.products-container1:not(:hover) {
+  box-shadow: 0 8px 40px rgba(231, 76, 60, 0.3);
+  transition: all 0.5s ease-in-out;
+}
+
+
+.categories-menu1 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.category-btn1 {
+  padding: 10px 26px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  background-size: 200% 200%;
+  animation: gradientFlow1 6s ease infinite;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(231, 76, 60, 0.5);
+  transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.category-btn1:hover {
+  background-position: 100% 50%;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(231, 76, 60, 0.7);
+}
+
+.category-btn1.active {
+  background-position: 100% 50%;
+  box-shadow: 0 12px 30px rgba(192, 57, 43, 0.9);
+}
+
+@keyframes gradientFlow1 {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.category-section1 {
+  margin-bottom: 60px;
+}
+
+.category-section1 h2 {
+  font-size: 2.2rem;
+  
+  color: #fcfcfc;
+  margin-bottom: 28px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 4px rgba(231, 76, 60, 0.6);
+}
+
+.products-grid1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 24px;
+}
+
+.product-card1 {
+  background: linear-gradient(135deg, #f39c12, #e74c3c);
+  background-size: 200% 200%;
+  animation: pulseGradient1 5s ease infinite;
+  color: white;
+  border-radius: 22px;
+  padding: 24px 20px;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.18);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.product-card1:hover {
+  transform: translateY(-14px) scale(1.0);
+  box-shadow: 0 22px 60px rgba(231, 76, 60, 0.45);
+}
+
+@keyframes pulseGradient1 {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.product-image1 {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.product-card1:hover .product-image1 {
+  transform: scale(1.02);
+  box-shadow: 0 12px 38px rgba(231, 76, 60, 0.55);
+}
+
+.product-card1 h2,
+.product-card1 h3 {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.description1 {
+  font-size: 1rem;
+  color: #ffe8db;
+  margin-bottom: 16px;
+  min-height: 60px;
+  line-height: 1.3;
+  text-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.price1 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff0d6;
+  margin-bottom: 18px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+}
+
+.btn1 {
+  padding: 12px 22px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.22);
+  color: white;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn1:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+}
+
+/* Dropdown styles unchanged except class names updated */
+.dropdown1 {
+  position: relative;
+  width: 220px;
+  margin: 0 auto 35px auto;
+  user-select: none;
+}
+
+.dropdown-toggle1 {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 7px 18px rgba(231, 76, 60, 0.7);
+  transition: background 0.3s ease, transform 0.25s ease;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dropdown-toggle1:hover {
+  background-position: 100% 50%;
+  transform: translateY(-4px);
+}
+
+.dropdown-menu1 {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  max-height: 320px;
+  z-index: 1100;
+
+  animation: dropdownFadeIn1 0.25s forwards ease-out;
+}
+
+.dropdown-menu1 li {
+  padding: 12px 24px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 700;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  border-radius: 10px;
+  user-select: none;
+  text-transform: capitalize;
+}
+
+.dropdown-menu1 li:hover {
+  background: #fbe6e1;
+  color: #e74c3c;
+  transform: scale(1.04);
+}
+
+.dropdown-menu1 li.active {
+  background: #e74c3c;
+  color: white;
+  font-weight: 800;
+}
+
+@keyframes dropdownFadeIn1 {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.loader1 {
+  text-align: center;
+  padding: 50px;
+  font-size: 1.4rem;
+  color: #e74c3c;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.no-products1 {
+  text-align: center;
+  padding: 50px;
+  font-size: 1.4rem;
+  color: #999;
+  font-weight: 600;
+}
+
+.product-card1 {
+  position: relative;
+  /* остальные стили карточки */
+}
+
+
+/* Стили кнопки избранного */
+.btn-favourite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-favourite:hover {
+  transform: scale(1.1);
+}
+
+.btn-favourite:active {
+  transform: scale(0.95);
+}
+
+/* Стили иконки внутри кнопки */
+.favourite-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  pointer-events: none; /* Чтобы клик шел на кнопку, а не картинку */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-favourite.active .favourite-icon {
+  transform: scale(1.2);
+}
+
+/* Карточка товара (чтобы кнопка вставала сверху) */
+.product-card1 {
+  position: relative; /* важно для позиционирования кнопки */
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card1:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
